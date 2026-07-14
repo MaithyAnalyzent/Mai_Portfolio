@@ -1,0 +1,1535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Maithili S — Generative AI Developer & Full Stack Engineer</title>
+  <meta name="description" content="Generative AI Developer, Full Stack Engineer, and ML Researcher. Building intelligent systems that turn ideas into impactful solutions." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:        #0A0908;
+      --bg2:       #111009;
+      --card:      #15120F;
+      --border:    #2C2720;
+      --orange:    #D97757;
+      --orange-lt: #F4A27A;
+      --orange-dk: #B05C3A;
+      --cream:     #EDE8E3;
+      --muted:     #9A9080;
+      --muted2:    #6A6055;
+      --radius:    14px;
+      --glow:      0 0 60px rgba(217,119,87,0.15);
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--cream);
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+      cursor: none;
+    }
+    h1,h2,h3,h4 { font-family: 'Syne', sans-serif; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ─── Custom Cursor ─── */
+    #cursor {
+      width: 12px; height: 12px; background: var(--orange); border-radius: 50%;
+      position: fixed; pointer-events: none; z-index: 9999;
+      transform: translate(-50%,-50%); transition: width .2s, height .2s;
+    }
+    #cursor-ring {
+      width: 36px; height: 36px; border: 1.5px solid rgba(217,119,87,0.5); border-radius: 50%;
+      position: fixed; pointer-events: none; z-index: 9998;
+      transform: translate(-50%,-50%); transition: all .15s ease;
+    }
+    #mouse-glow {
+      position: fixed; pointer-events: none; z-index: 0;
+      width: 500px; height: 500px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(217,119,87,0.04), transparent 70%);
+      transform: translate(-50%,-50%);
+    }
+
+    /* ─── Progress bar ─── */
+    #progress-bar {
+      position: fixed; top: 0; left: 0; height: 2px; z-index: 1000; width: 0%;
+      background: linear-gradient(90deg, var(--orange-dk), var(--orange), var(--orange-lt));
+      transition: width .1s linear;
+    }
+
+    /* ─── Nav ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 900;
+      padding: 20px 48px; display: flex; align-items: center; justify-content: space-between;
+      transition: background .4s, backdrop-filter .4s, padding .4s;
+    }
+    nav.scrolled {
+      background: rgba(10,9,8,0.88); backdrop-filter: blur(20px);
+      padding: 14px 48px; border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: 'Syne', sans-serif; font-size: 1.3rem; font-weight: 800;
+      background: linear-gradient(135deg, var(--orange-lt), var(--orange));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .nav-links { display: flex; gap: 32px; align-items: center; }
+    .nav-links a { font-size: .875rem; font-weight: 500; color: var(--muted); transition: color .2s; }
+    .nav-links a:hover { color: var(--cream); }
+    .nav-resume {
+      padding: 9px 20px; background: transparent; color: var(--orange-lt) !important;
+      border: 1px solid rgba(217,119,87,0.4); border-radius: 8px; font-weight: 600 !important;
+      transition: background .2s, border-color .2s !important;
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+    .nav-resume:hover { background: rgba(217,119,87,0.08); border-color: var(--orange) !important; }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: none; }
+    .hamburger span { display: block; width: 22px; height: 2px; background: var(--cream); border-radius: 2px; transition: .3s; }
+
+    /* ─── Mobile menu ─── */
+    .mobile-menu {
+      display: none; position: fixed; inset: 0; z-index: 800;
+      background: rgba(10,9,8,0.97); backdrop-filter: blur(20px);
+      flex-direction: column; align-items: center; justify-content: center; gap: 32px;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a { font-family: 'Syne', sans-serif; font-size: 1.8rem; font-weight: 700; color: var(--cream); }
+    .mobile-menu-close { position: absolute; top: 28px; right: 28px; font-size: 1.5rem; color: var(--muted); cursor: none; }
+
+    /* ─── Hero ─── */
+    #hero {
+      min-height: 100vh; display: flex; align-items: center;
+      padding: 120px 48px 80px; position: relative; overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0; z-index: 0;
+      background: radial-gradient(ellipse 70% 60% at 65% 40%, rgba(217,119,87,0.07) 0%, transparent 70%),
+                  radial-gradient(ellipse 50% 50% at 20% 80%, rgba(180,90,50,0.05) 0%, transparent 60%);
+    }
+    .hero-grain {
+      position: absolute; inset: 0; z-index: 1; pointer-events: none; opacity: .4;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    }
+    .orb { position: absolute; border-radius: 50%; filter: blur(80px); pointer-events: none; z-index: 0; animation: float 8s ease-in-out infinite; }
+    .orb-1 { width: 400px; height: 400px; background: rgba(217,119,87,0.06); top: -80px; right: 80px; }
+    .orb-2 { width: 250px; height: 250px; background: rgba(176,92,58,0.05); bottom: 80px; left: 150px; animation-delay: -3s; }
+    .orb-3 { width: 180px; height: 180px; background: rgba(217,119,87,0.04); top: 45%; right: 28%; animation-delay: -5s; }
+    @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-28px); } }
+
+    .hero-inner { position: relative; z-index: 2; display: grid; grid-template-columns: 38% 62%; align-items: center; width: 100%; max-width: 1400px; margin: 0 auto; }
+    .hero-content { width: 100%; padding-left: 48px; }
+
+    .hero-name {
+      font-family: 'Syne', sans-serif; font-size: clamp(2.4rem, 4.5vw, 4.2rem); font-weight: 800;
+      line-height: 1; letter-spacing: -0.03em; margin-bottom: 20px; white-space: nowrap;
+      background: linear-gradient(135deg, var(--cream) 30%, var(--orange-lt) 70%, var(--orange) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px;
+      border: 1px solid rgba(217,119,87,0.3); border-radius: 100px;
+      font-size: .78rem; color: var(--orange-lt); font-weight: 500; margin-bottom: 28px;
+      background: rgba(217,119,87,0.06);
+    }
+    .hero-badge::before { content: ''; width: 7px; height: 7px; background: var(--orange); border-radius: 50%; animation: pulse 2s ease-in-out infinite; }
+    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: .4; } }
+
+    .hero-title {
+      font-size: clamp(2.8rem, 5.5vw, 5rem); font-weight: 800;
+      line-height: 1.05; letter-spacing: -2px; margin-bottom: 20px;
+    }
+    .hero-title .accent {
+      background: linear-gradient(135deg, var(--orange-lt) 0%, var(--orange) 60%, var(--orange-dk) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .hero-role {
+      font-size: .95rem; color: var(--orange-lt); font-weight: 500; margin-bottom: 18px;
+      letter-spacing: .5px;
+    }
+    .hero-sub { font-size: 1.05rem; color: var(--muted); line-height: 1.75; margin-bottom: 36px; }
+
+    .hero-btns { display: flex; gap: 12px; flex-wrap: wrap; }
+    .btn-primary {
+      padding: 13px 26px; background: var(--orange); color: #fff; border-radius: 10px;
+      font-weight: 600; font-size: .9rem; border: none; cursor: none;
+      transition: background .2s, transform .2s, box-shadow .2s;
+      display: inline-flex; align-items: center; gap: 8px;
+    }
+    .btn-primary:hover { background: var(--orange-lt); transform: translateY(-2px); box-shadow: 0 12px 32px rgba(217,119,87,0.4); }
+    .btn-secondary {
+      padding: 13px 26px; background: transparent; color: var(--cream); border-radius: 10px;
+      font-weight: 600; font-size: .9rem; border: 1px solid var(--border); cursor: none;
+      transition: border-color .2s, background .2s, transform .2s;
+      display: inline-flex; align-items: center; gap: 8px;
+    }
+    .btn-secondary:hover { border-color: var(--orange); background: rgba(217,119,87,0.05); transform: translateY(-2px); }
+    .btn-resume {
+      padding: 13px 26px; background: rgba(217,119,87,0.1); color: var(--orange-lt); border-radius: 10px;
+      font-weight: 600; font-size: .9rem; border: 1px solid rgba(217,119,87,0.3); cursor: none;
+      transition: background .2s, border-color .2s, transform .2s;
+      display: inline-flex; align-items: center; gap: 8px;
+    }
+    .btn-resume:hover { background: rgba(217,119,87,0.18); border-color: var(--orange); transform: translateY(-2px); }
+
+    /* Hero photo */
+    .hero-photo-wrap { position: relative; display: flex; justify-content: center; align-items: center; }
+    .hero-photo {
+      width: 460px; height: 520px;
+      border-radius: 42% 58% 52% 48% / 44% 48% 52% 56%;
+      overflow: hidden;
+      border: 2px solid rgba(217,119,87,0.35);
+      box-shadow: 0 32px 80px rgba(0,0,0,0.6), 0 0 40px rgba(217,119,87,0.15);
+      position: relative;
+    }
+    .hero-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center center; display: block; }
+    .hero-photo::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(180deg, transparent 60%, rgba(10,9,8,0.4) 100%);
+    }
+    .hero-photo-glow {
+      position: absolute; inset: -60px; border-radius: 50%;
+      background: radial-gradient(ellipse at center,
+        rgba(217,119,87,0.45) 0%,
+        rgba(217,119,87,0.20) 35%,
+        rgba(217,119,87,0.08) 60%,
+        transparent 75%);
+      z-index: -1; filter: blur(18px);
+      animation: glowPulse 4s ease-in-out infinite;
+    }
+    @keyframes glowPulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.7; transform: scale(1.08); }
+    }
+    .hero-photo-wrap::before {
+      content: ''; position: absolute; inset: -3px;
+      border-radius: 42% 58% 52% 48% / 44% 48% 52% 56%;
+      background: conic-gradient(from 0deg, var(--orange), transparent 40%, var(--orange-lt) 60%, transparent 80%, var(--orange));
+      z-index: -1;
+      animation: spinBorder 8s linear infinite;
+      filter: blur(2px);
+      opacity: 0.75;
+    }
+    @keyframes spinBorder {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+    .hero-photo-badge {
+      position: absolute; bottom: -14px; left: 50%; transform: translateX(-50%);
+      background: var(--card); border: 1px solid rgba(217,119,87,0.3);
+      padding: 10px 18px; border-radius: 100px;
+      font-size: .78rem; font-weight: 600; color: var(--orange-lt);
+      white-space: nowrap; box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    }
+
+    /* ─── Trust marquee ─── */
+    #trust { padding: 40px 0; overflow: hidden; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: var(--bg2); }
+    .marquee-track { display: flex; width: max-content; animation: marquee 22s linear infinite; }
+    .marquee-track:hover { animation-play-state: paused; }
+    @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    .marquee-item { padding: 0 44px; white-space: nowrap; font-size: .875rem; font-weight: 500; color: var(--muted2); transition: color .2s; }
+    .marquee-item:hover { color: var(--muted); }
+
+    /* ─── Sections ─── */
+    section { padding: 96px 48px; }
+    .section-tag { font-size: .75rem; font-weight: 600; letter-spacing: 2px; color: var(--orange); text-transform: uppercase; margin-bottom: 12px; }
+    .section-title { font-size: clamp(1.8rem, 3.2vw, 2.6rem); font-weight: 800; letter-spacing: -1px; margin-bottom: 14px; }
+    .section-sub { font-size: 1rem; color: var(--muted); max-width: 500px; line-height: 1.7; }
+    .section-header { margin-bottom: 52px; }
+
+    /* ─── About ─── */
+    #about { background: var(--bg2); }
+    .about-grid { display: grid; grid-template-columns: 1fr 1.1fr; gap: 72px; align-items: start; }
+    .about-text p { color: var(--muted); line-height: 1.82; margin-bottom: 16px; font-size: 1rem; }
+    .about-text p strong { color: var(--cream); }
+
+    /* Experience timeline */
+    .exp-list { margin-top: 32px; display: flex; flex-direction: column; gap: 0; }
+    .exp-item {
+      padding: 20px 0 20px 24px;
+      border-left: 1px solid var(--border);
+      position: relative;
+    }
+    .exp-item::before {
+      content: ''; position: absolute; left: -5px; top: 24px;
+      width: 9px; height: 9px; border-radius: 50%;
+      background: var(--orange); border: 2px solid var(--bg2);
+    }
+    .exp-role { font-weight: 700; font-size: .95rem; color: var(--cream); }
+    .exp-company { font-size: .82rem; color: var(--orange-lt); margin: 3px 0 8px; }
+    .exp-desc { font-size: .83rem; color: var(--muted); line-height: 1.65; }
+
+    /* Education */
+    .edu-list { margin-top: 32px; display: flex; flex-direction: column; gap: 12px; }
+    .edu-item {
+      background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+      padding: 14px 18px; display: flex; flex-direction: column; gap: 3px;
+    }
+    .edu-degree { font-weight: 600; font-size: .88rem; }
+    .edu-school { font-size: .8rem; color: var(--muted); }
+
+    /* Skills */
+    .skills-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 28px; }
+    .skill-chip {
+      padding: 5px 13px; border-radius: 100px; border: 1px solid var(--border);
+      font-size: .78rem; color: var(--muted); background: var(--card);
+      transition: border-color .2s, color .2s, background .2s;
+    }
+    .skill-chip:hover { border-color: var(--orange); color: var(--orange-lt); background: rgba(217,119,87,0.06); }
+
+    /* ─── Projects ─── */
+    .filter-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 36px; }
+    .filter-tab {
+      padding: 7px 18px; border-radius: 100px; border: 1px solid var(--border);
+      font-size: .8rem; font-weight: 600; color: var(--muted); background: transparent;
+      cursor: none; transition: all .2s;
+    }
+    .filter-tab:hover { border-color: var(--orange); color: var(--orange-lt); }
+    .filter-tab.active { background: var(--orange); color: #fff; border-color: var(--orange); }
+    .projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+    .project-card {
+      background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 26px; display: flex; flex-direction: column; gap: 14px;
+      transition: transform .25s, border-color .25s, box-shadow .25s, opacity .25s; position: relative; overflow: hidden;
+    }
+    .project-card.hidden { display: none; }
+    .project-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--orange-dk), var(--orange)); opacity: 0; transition: opacity .25s;
+    }
+    .project-card:hover { transform: translateY(-5px); border-color: rgba(217,119,87,0.3); box-shadow: var(--glow); }
+    .project-card:hover::before { opacity: 1; }
+    .project-icon { width: 44px; height: 44px; border-radius: 10px; background: rgba(217,119,87,0.1); border: 1px solid rgba(217,119,87,0.2); display: flex; align-items: center; justify-content: center; font-size: 1.3rem; }
+    .project-name { font-family: 'Syne', sans-serif; font-size: 1.05rem; font-weight: 700; }
+    .project-desc { font-size: .845rem; color: var(--muted); line-height: 1.65; flex: 1; }
+    .project-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+    .tag { font-size: .7rem; font-weight: 500; padding: 3px 9px; border-radius: 100px; background: rgba(217,119,87,0.08); color: var(--orange-lt); border: 1px solid rgba(217,119,87,0.15); }
+    .project-links { display: flex; gap: 8px; margin-top: 2px; }
+    .project-link {
+      padding: 6px 13px; border-radius: 8px; font-size: .75rem; font-weight: 600;
+      border: 1px solid var(--border); color: var(--muted); background: transparent;
+      display: inline-flex; align-items: center; gap: 5px;
+      transition: border-color .2s, color .2s, background .2s;
+    }
+    .project-link:hover { border-color: var(--orange); color: var(--orange-lt); background: rgba(217,119,87,0.06); }
+    .project-link.primary { background: var(--orange); color: #fff; border-color: var(--orange); }
+    .project-link.primary:hover { background: var(--orange-lt); border-color: var(--orange-lt); }
+
+    /* ─── HuggingFace ─── */
+    #huggingface { background: var(--bg2); }
+    .hf-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .hf-card {
+      background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 20px; transition: transform .25s, border-color .25s;
+      display: flex; flex-direction: column; gap: 9px; text-decoration: none; color: inherit;
+    }
+    .hf-card.hidden { display: none; }
+    .hf-card:hover { transform: translateY(-4px); border-color: rgba(217,119,87,0.3); }
+    .hf-top { display: flex; align-items: center; gap: 10px; }
+    .hf-emoji { font-size: 1.4rem; }
+    .hf-name { font-weight: 700; font-size: .9rem; }
+    .hf-desc { font-size: .8rem; color: var(--muted); line-height: 1.6; flex:1; }
+    .hf-badge { font-size: .7rem; padding: 3px 9px; border-radius: 100px; border: 1px solid rgba(217,119,87,0.2); color: var(--orange-lt); background: rgba(217,119,87,0.07); align-self: flex-start; }
+    .hf-footer { display:flex; align-items:center; justify-content:space-between; margin-top:4px; }
+    .hf-open { font-size:.72rem; font-weight:600; color:var(--orange); opacity:0; transition:opacity .2s; }
+    .hf-card:hover .hf-open { opacity:1; }
+
+    /* ─── Blog modal ─── */
+    .blog-modal-overlay {
+      display:none; position:fixed; inset:0; z-index:2000;
+      background:rgba(5,4,3,0.85); backdrop-filter:blur(12px);
+      align-items:center; justify-content:center; padding:24px;
+    }
+    .blog-modal-overlay.open { display:flex; animation: modalIn .3s ease; }
+    @keyframes modalIn { from{opacity:0;transform:scale(.96)} to{opacity:1;transform:scale(1)} }
+    .blog-modal {
+      background: var(--card); border: 1px solid rgba(217,119,87,0.2);
+      border-radius: 20px; width:100%; max-width:740px;
+      max-height:88vh; overflow:hidden; display:flex; flex-direction:column;
+      box-shadow: 0 40px 80px rgba(0,0,0,0.6);
+    }
+    .blog-modal-header {
+      padding:24px 28px 0; display:flex; justify-content:space-between; align-items:flex-start; gap:16px;
+    }
+    .blog-modal-meta { font-size:.75rem; color:var(--orange-lt); font-weight:600; margin-bottom:8px; letter-spacing:.5px; }
+    .blog-modal-title { font-family:'Syne',sans-serif; font-size:1.4rem; font-weight:800; line-height:1.3; }
+    .blog-modal-close {
+      flex-shrink:0; width:36px; height:36px; border-radius:8px;
+      border:1px solid var(--border); background:transparent; color:var(--muted);
+      font-size:1.1rem; cursor:none; display:flex; align-items:center; justify-content:center;
+      transition:border-color .2s, color .2s; margin-top:2px;
+    }
+    .blog-modal-close:hover { border-color:var(--orange); color:var(--cream); }
+    .blog-modal-divider { height:1px; background:var(--border); margin:20px 28px; }
+    .blog-modal-body {
+      padding:0 28px 28px; overflow-y:auto; flex:1;
+      font-size:.92rem; color:var(--muted); line-height:1.85;
+      scrollbar-width:thin; scrollbar-color:var(--border) transparent;
+    }
+    .blog-modal-body p { margin-bottom:16px; }
+    .blog-modal-body h3 { font-family:'Syne',sans-serif; font-size:1.05rem; color:var(--cream); margin:24px 0 10px; }
+    .blog-modal-body ul { padding-left:20px; margin-bottom:16px; }
+    .blog-modal-body li { margin-bottom:6px; }
+    .blog-modal-body strong { color:var(--cream); }
+
+    /* ─── Services ─── */
+    .services-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+    .service-card {
+      background: rgba(21,18,15,0.6); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 26px 22px; backdrop-filter: blur(10px);
+      transition: transform .25s, border-color .25s, box-shadow .25s;
+    }
+    .service-card:hover { transform: translateY(-5px); border-color: rgba(217,119,87,0.3); box-shadow: var(--glow); }
+    .service-icon { font-size: 1.9rem; margin-bottom: 12px; }
+    .service-name { font-family: 'Syne', sans-serif; font-weight: 700; margin-bottom: 7px; font-size: .95rem; }
+    .service-desc { font-size: .82rem; color: var(--muted); line-height: 1.65; }
+
+    /* ─── Blogs ─── */
+    #blogs { background: var(--bg2); }
+    .blogs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+    .blog-card {
+      background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+      overflow: hidden; transition: transform .25s, border-color .25s, box-shadow .25s;
+    }
+    .blog-card:hover { transform: translateY(-5px); border-color: rgba(217,119,87,0.3); box-shadow: var(--glow); }
+    .blog-cover { width:100%; height:420px; object-fit:cover; object-position:center 20%; display:block; }
+    .blog-cover-placeholder {
+      width:100%; height:220px; display:flex; align-items:center; justify-content:center;
+      background: linear-gradient(135deg, rgba(217,119,87,0.15), rgba(180,90,50,0.08), rgba(10,9,8,0.4));
+      font-size: 3rem;
+    }
+    .blog-body { padding: 28px; }
+    .blog-meta { font-size: .75rem; color: var(--muted2); margin-bottom: 12px; display: flex; align-items: center; gap: 12px; }
+    .blog-date { display: flex; align-items: center; gap: 5px; }
+    .blog-title { font-family: 'Syne', sans-serif; font-size: 1.2rem; font-weight: 700; margin-bottom: 12px; line-height: 1.35; }
+    .blog-excerpt { font-size: .875rem; color: var(--muted); line-height: 1.72; margin-bottom: 20px; }
+    .blog-read-more {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: .82rem; font-weight: 600; color: var(--orange);
+      padding: 7px 14px; border-radius: 8px; border: 1px solid rgba(217,119,87,0.3);
+      transition: background .2s, border-color .2s;
+    }
+    .blog-read-more:hover { background: rgba(217,119,87,0.08); border-color: var(--orange); }
+    .blog-tag { font-size: .7rem; font-weight: 600; padding: 3px 9px; border-radius: 100px; background: rgba(217,119,87,0.1); color: var(--orange-lt); border: 1px solid rgba(217,119,87,0.2); }
+
+    /* ─── Contact ─── */
+    #contact { }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 72px; align-items: start; }
+    .contact-link-item {
+      display: flex; align-items: center; gap: 14px; padding: 16px 0;
+      border-bottom: 1px solid var(--border); color: var(--muted); font-size: .88rem;
+      transition: color .2s;
+    }
+    .contact-link-item:hover { color: var(--cream); }
+    .contact-link-item .icon { color: var(--orange); flex-shrink: 0; font-size: 1.1rem; width: 20px; text-align: center; }
+    .contact-form { display: flex; flex-direction: column; gap: 14px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .form-group { display: flex; flex-direction: column; gap: 5px; }
+    .form-group label { font-size: .75rem; font-weight: 600; color: var(--muted); letter-spacing: .5px; text-transform: uppercase; }
+    .form-group input, .form-group select, .form-group textarea {
+      background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+      padding: 12px 15px; color: var(--cream); font-family: 'Inter', sans-serif;
+      font-size: .88rem; resize: none; outline: none;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+      border-color: var(--orange); box-shadow: 0 0 0 3px rgba(217,119,87,0.1);
+    }
+    .form-group select option { background: var(--card); }
+    .form-submit {
+      padding: 14px 30px; background: var(--orange); color: #fff; border-radius: 10px;
+      font-weight: 700; font-size: .95rem; border: none; cursor: none;
+      transition: background .2s, transform .2s, box-shadow .2s; align-self: flex-start;
+    }
+    .form-submit:hover { background: var(--orange-lt); transform: translateY(-2px); box-shadow: 0 12px 32px rgba(217,119,87,0.4); }
+    .success-msg {
+      display: none; padding: 14px 18px;
+      background: rgba(217,119,87,0.1); border: 1px solid rgba(217,119,87,0.3);
+      border-radius: 10px; color: var(--orange-lt); font-size: .875rem; font-weight: 500;
+      align-items: center; gap: 8px;
+    }
+    .success-msg.show { display: flex; animation: fadeIn .4s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* ─── Footer ─── */
+    footer {
+      padding: 56px 48px 36px; border-top: 1px solid var(--border); position: relative; overflow: hidden;
+    }
+    footer::before {
+      content: ''; position: absolute; bottom: -80px; left: 50%; transform: translateX(-50%);
+      width: 600px; height: 200px;
+      background: radial-gradient(ellipse, rgba(217,119,87,0.05), transparent);
+      pointer-events: none;
+    }
+    .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 44px; margin-bottom: 44px; }
+    .footer-brand-name {
+      font-family: 'Syne', sans-serif; font-size: 1.35rem; font-weight: 800; margin-bottom: 10px;
+      background: linear-gradient(135deg, var(--orange-lt), var(--orange));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .footer-brand-desc { font-size: .84rem; color: var(--muted); line-height: 1.7; max-width: 230px; }
+    .footer-col-title { font-weight: 700; font-size: .8rem; margin-bottom: 14px; letter-spacing: .5px; text-transform: uppercase; color: var(--muted); }
+    .footer-col a { display: block; font-size: .84rem; color: var(--muted2); margin-bottom: 9px; transition: color .2s; }
+    .footer-col a:hover { color: var(--cream); }
+    .footer-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 24px; border-top: 1px solid var(--border); }
+    .footer-copy { font-size: .78rem; color: var(--muted2); }
+    .social-links { display: flex; gap: 10px; }
+    .social-link {
+      width: 34px; height: 34px; border-radius: 8px; border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--muted); transition: border-color .2s, color .2s, background .2s; font-size: .82rem;
+    }
+    .social-link:hover { border-color: var(--orange); color: var(--orange); background: rgba(217,119,87,0.06); }
+
+    /* ─── Reveal ─── */
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity .6s ease, transform .6s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: .1s; }
+    .reveal-delay-2 { transition-delay: .2s; }
+    .reveal-delay-3 { transition-delay: .3s; }
+    .reveal-delay-4 { transition-delay: .4s; }
+
+    /* ─── Responsive ─── */
+    @media (max-width: 1100px) {
+      .services-grid { grid-template-columns: repeat(2, 1fr); }
+      .hero-photo { width: 300px; height: 360px; }
+    }
+    @media (max-width: 900px) {
+      nav { padding: 18px 24px; }
+      nav.scrolled { padding: 12px 24px; }
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      section { padding: 72px 24px; }
+      #hero { padding: 100px 24px 60px; }
+      .hero-inner { grid-template-columns: 1fr; gap: 40px; }
+      .hero-photo-wrap { order: 0; }
+      .hero-photo { width: 230px; height: 275px; }
+      .about-grid { grid-template-columns: 1fr; gap: 40px; }
+      .projects-grid { grid-template-columns: 1fr 1fr; }
+      .hf-grid { grid-template-columns: 1fr 1fr; }
+      .blogs-grid { grid-template-columns: 1fr; }
+      .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 600px) {
+      .projects-grid { grid-template-columns: 1fr; }
+      .hf-grid { grid-template-columns: 1fr; }
+      .services-grid { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; }
+      #cursor, #cursor-ring { display: none; }
+      body { cursor: auto; }
+      .btn-primary, .btn-secondary, .btn-resume, .form-submit, .nav-resume { cursor: pointer; }
+      .creative-photo-grid { grid-template-columns: repeat(2, 1fr) !important; }
+    }
+
+    /* ─── AI Creative Section ─── */
+    .creative-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 24px;
+    }
+    .creative-card {
+      background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+      overflow: hidden; transition: transform .3s, box-shadow .3s;
+    }
+    .creative-card:hover { transform: translateY(-4px); box-shadow: 0 20px 50px rgba(0,0,0,0.4); }
+    .creative-photo-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 3px;
+    }
+    .creative-photo-grid img {
+      width: 100%; aspect-ratio: 1 / 1; object-fit: cover; display: block;
+      transition: opacity .2s;
+    }
+    .creative-photo-grid img:hover { opacity: 0.85; }
+    .creative-card-body { padding: 20px; }
+    .creative-card-tag {
+      font-size: .7rem; font-weight: 700; letter-spacing: .8px; text-transform: uppercase;
+      color: var(--orange); margin-bottom: 8px;
+    }
+    .creative-card-title { font-family: 'Syne', sans-serif; font-size: 1.05rem; font-weight: 700; margin-bottom: 8px; }
+    .creative-card-desc { font-size: .875rem; color: var(--muted); line-height: 1.6; }
+    .creative-video-thumb {
+      position: relative; width: 100%; aspect-ratio: 16 / 9; background: #0f0e0c;
+      display: flex; align-items: center; justify-content: center; overflow: hidden;
+    }
+    .creative-video-thumb .play-btn {
+      width: 64px; height: 64px; background: rgba(217,119,87,0.9); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center; z-index: 2;
+      transition: transform .2s, background .2s;
+    }
+    .creative-video-thumb:hover .play-btn { transform: scale(1.1); background: var(--orange); }
+    .creative-video-thumb svg { margin-left: 4px; }
+    .creative-video-label { position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 10px 16px; font-size: .8rem; color: var(--cream);
+      background: linear-gradient(0deg, rgba(0,0,0,0.7), transparent);
+    }
+    .creative-vid-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      margin-top: 12px; font-size: .8rem; font-weight: 600;
+      color: var(--orange-lt); border: 1px solid rgba(217,119,87,0.3);
+      padding: 6px 14px; border-radius: 6px; transition: background .2s, border-color .2s;
+    }
+    .creative-vid-link:hover { background: rgba(217,119,87,0.1); border-color: var(--orange); }
+  </style>
+</head>
+<body>
+
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+<div id="mouse-glow"></div>
+<div id="progress-bar"></div>
+
+<!-- Mobile menu -->
+<div class="mobile-menu" id="mobile-menu">
+  <span class="mobile-menu-close" id="menu-close">✕</span>
+  <a href="#about" onclick="closeMobileMenu()">About</a>
+  <a href="#projects" onclick="closeMobileMenu()">Projects</a>
+  <a href="#huggingface" onclick="closeMobileMenu()">HuggingFace</a>
+  <a href="#creative" onclick="closeMobileMenu()">Creative</a>
+  <a href="#services" onclick="closeMobileMenu()">Services</a>
+  <a href="#blogs" onclick="closeMobileMenu()">Blogs</a>
+  <a href="#contact" onclick="closeMobileMenu()">Contact</a>
+  <a href="https://drive.google.com/uc?export=download&id=16nWmQqYzqOZw-xq22NUkL0HuF-osgWq3" target="_blank" rel="noopener noreferrer" style="color:var(--orange)">↓ Resume</a>
+</div>
+
+<!-- Nav -->
+<nav id="navbar">
+  <a href="#hero" class="nav-logo">Maithili S.</a>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#projects">Projects</a>
+    <a href="#huggingface">HuggingFace</a>
+    <a href="#creative">Creative</a>
+    <a href="#services">Services</a>
+    <a href="#blogs">Blogs</a>
+    <a href="#contact">Contact</a>
+    <a href="https://drive.google.com/uc?export=download&id=16nWmQqYzqOZw-xq22NUkL0HuF-osgWq3"
+       target="_blank" rel="noopener noreferrer" class="nav-resume">
+      ↓ Resume
+    </a>
+  </div>
+  <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+</nav>
+
+<!-- Hero -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grain"></div>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+
+  <div class="hero-inner">
+    <div class="hero-photo-wrap reveal reveal-delay-4">
+      <div class="hero-photo-glow"></div>
+      <div class="hero-photo">
+        <img src="photo.png" alt="Maithili S — Generative AI Developer" loading="eager" />
+      </div>
+      <div class="hero-photo-badge">✦ AI Engineer &amp; Builder</div>
+    </div>
+    <div class="hero-content">
+      <div class="hero-name reveal">Maithili S.</div>
+      <div class="hero-badge reveal">✦ Open to AI Projects & Collaborations · Bangalore, India</div>
+
+      <h1 class="hero-title reveal reveal-delay-1">
+        Building AI That<br/>
+        <span class="accent">Thinks,</span> Creates,<br/>
+        & <span class="accent">Delivers Impact.</span>
+      </h1>
+
+      <p class="hero-role reveal reveal-delay-2">
+        Generative AI Developer &nbsp;·&nbsp; Full Stack Engineer &nbsp;·&nbsp; ML Researcher
+      </p>
+
+      <p class="hero-sub reveal reveal-delay-2">
+        Bridging the gap between data and creativity — I build intelligent systems that
+        merge cutting-edge AI with real-world products people actually use.
+      </p>
+
+      <div class="hero-btns reveal reveal-delay-3">
+        <a href="#projects" class="btn-primary">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          View My Work
+        </a>
+        <a href="https://drive.google.com/uc?export=download&id=16nWmQqYzqOZw-xq22NUkL0HuF-osgWq3"
+           target="_blank" rel="noopener noreferrer" class="btn-resume">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download Resume
+        </a>
+        <a href="#contact" class="btn-secondary">Let's Connect</a>
+      </div>
+    </div>
+
+
+    </div>
+  </div>
+</section>
+
+<!-- Tech marquee -->
+<div id="trust">
+  <div class="marquee-track">
+    <div class="marquee-item">🤖 LangChain</div>
+    <div class="marquee-item">🧠 OpenAI</div>
+    <div class="marquee-item">🟠 Anthropic Claude</div>
+    <div class="marquee-item">🤗 HuggingFace</div>
+    <div class="marquee-item">⚡ FastAPI</div>
+    <div class="marquee-item">⚛️ React</div>
+    <div class="marquee-item">🔷 TypeScript</div>
+    <div class="marquee-item">🐍 Python</div>
+    <div class="marquee-item">🔥 Firebase</div>
+    <div class="marquee-item">🌊 Streamlit</div>
+    <div class="marquee-item">🔺 Next.js</div>
+    <div class="marquee-item">🎨 Tailwind CSS</div>
+    <div class="marquee-item">🧩 CrewAI</div>
+    <div class="marquee-item">🌊 Langflow</div>
+    <!-- duplicate -->
+    <div class="marquee-item">🤖 LangChain</div>
+    <div class="marquee-item">🧠 OpenAI</div>
+    <div class="marquee-item">🟠 Anthropic Claude</div>
+    <div class="marquee-item">🤗 HuggingFace</div>
+    <div class="marquee-item">⚡ FastAPI</div>
+    <div class="marquee-item">⚛️ React</div>
+    <div class="marquee-item">🔷 TypeScript</div>
+    <div class="marquee-item">🐍 Python</div>
+    <div class="marquee-item">🔥 Firebase</div>
+    <div class="marquee-item">🌊 Streamlit</div>
+    <div class="marquee-item">🔺 Next.js</div>
+    <div class="marquee-item">🎨 Tailwind CSS</div>
+    <div class="marquee-item">🧩 CrewAI</div>
+    <div class="marquee-item">🌊 Langflow</div>
+  </div>
+</div>
+
+<!-- About -->
+<section id="about">
+  <div class="about-grid">
+    <div>
+      <p class="section-tag reveal">About Me</p>
+      <h2 class="section-title reveal">Generative AI Developer & ML Researcher</h2>
+      <div class="about-text">
+        <p class="reveal reveal-delay-1">
+          Hi, I'm <strong>Maithili S</strong> — a passionate <strong>Generative AI Developer</strong>,
+          <strong>Full Stack Engineer</strong>, and <strong>Machine Learning Researcher</strong> driven by
+          technology's potential to transform ideas into impactful solutions.
+        </p>
+        <p class="reveal reveal-delay-1">
+          With a strong foundation in <strong>Data Science</strong> and an <strong>MBA in Data Analytics</strong>,
+          I specialize in crafting intelligent systems that merge creativity with innovation. From chatbots
+          that hold meaningful conversations to AI tools built on <strong>Stable Diffusion, LoRA, RAG,
+          AI Agents</strong> and <strong>LLMs</strong> — I turn cutting-edge research into real-world applications.
+        </p>
+        <p class="reveal reveal-delay-2">
+          Whether designing AI-powered systems for businesses, presenting ideas at global conferences,
+          or mentoring the next generation of developers — I bring curiosity and boldness to everything I build.
+        </p>
+      </div>
+
+      <div class="skills-grid reveal reveal-delay-3">
+        <span class="skill-chip">Python</span><span class="skill-chip">TypeScript</span>
+        <span class="skill-chip">JavaScript</span><span class="skill-chip">React</span>
+        <span class="skill-chip">Next.js</span><span class="skill-chip">FastAPI</span>
+        <span class="skill-chip">LangChain</span><span class="skill-chip">CrewAI</span>
+        <span class="skill-chip">Langflow</span><span class="skill-chip">OpenAI API</span>
+        <span class="skill-chip">Anthropic API</span><span class="skill-chip">HuggingFace</span>
+        <span class="skill-chip">Streamlit</span><span class="skill-chip">Gradio</span>
+        <span class="skill-chip">RAG</span><span class="skill-chip">AI Agents</span>
+        <span class="skill-chip">Stable Diffusion</span><span class="skill-chip">LoRA</span>
+        <span class="skill-chip">MongoDB</span><span class="skill-chip">Firebase</span>
+        <span class="skill-chip">Prompt Engineering</span><span class="skill-chip">ComfyUI</span>
+      </div>
+    </div>
+
+    <div>
+      <p class="section-tag reveal">Experience</p>
+      <div class="exp-list">
+        <div class="exp-item reveal reveal-delay-1">
+          <div class="exp-role">Software Engineer I (AI/ML)</div>
+          <div class="exp-company">Damco Solutions &nbsp;·&nbsp; Jun 2025 – Present</div>
+          <div class="exp-desc">Building Generative AI systems using RAG pipelines, LangChain workflows, and agentic AI architectures for enterprise applications. Designing AI orchestration systems focused on contextual reasoning and intelligent retrieval.</div>
+        </div>
+        <div class="exp-item reveal reveal-delay-2">
+          <div class="exp-role">Data Annotator (Freelance)</div>
+          <div class="exp-company">RWS Group &nbsp;·&nbsp; Feb 2024 – Oct 2024</div>
+          <div class="exp-desc">Curated and labeled datasets for AI/ML model development workflows. Improved annotation consistency and data quality for machine learning pipelines.</div>
+        </div>
+        <div class="exp-item reveal reveal-delay-3">
+          <div class="exp-role">GCSE Educator (Mathematics & Science)</div>
+          <div class="exp-company">Self-Employed &nbsp;·&nbsp; Aug 2023 – Present</div>
+          <div class="exp-desc">Designed structured analytical learning systems for GCSE students. Developed personalized study workflows and conducted remote mentoring sessions.</div>
+        </div>
+        <div class="exp-item reveal reveal-delay-3">
+          <div class="exp-role">Web Developer</div>
+          <div class="exp-company">TechVolt Software Pvt. Ltd. &nbsp;·&nbsp; Jul 2021 – Sep 2021</div>
+          <div class="exp-desc">Built responsive web applications and optimized frontend user experiences. Contributed to deployment workflows and application functionality improvements.</div>
+        </div>
+      </div>
+
+      <p class="section-tag reveal" style="margin-top:36px;">Education</p>
+      <div class="edu-list">
+        <div class="edu-item reveal reveal-delay-1">
+          <div class="edu-degree">MBA in Data Analytics</div>
+          <div class="edu-school">Manipal University Jaipur (Online) &nbsp;·&nbsp; 2023 – 2025</div>
+        </div>
+        <div class="edu-item reveal reveal-delay-2">
+          <div class="edu-degree">BCA in Data Science</div>
+          <div class="edu-school">Amrita Vishwa Vidyapeetham &nbsp;·&nbsp; 2020 – 2023</div>
+        </div>
+        <div class="edu-item reveal reveal-delay-3">
+          <div class="edu-degree">GenAI Cohort</div>
+          <div class="edu-school">100xEngineers &nbsp;·&nbsp; Jun 2024 – Dec 2024</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Projects -->
+<section id="projects">
+  <div class="section-header reveal">
+    <p class="section-tag">GitHub Projects</p>
+    <h2 class="section-title">All 13 Projects</h2>
+    <p class="section-sub">Every project I've built — from AI agents and RAG systems to ML research and automation.</p>
+  </div>
+
+  <!-- Filter tabs -->
+  <div class="filter-tabs reveal">
+    <button class="filter-tab active" data-filter="all">All (13)</button>
+    <button class="filter-tab" data-filter="agents">AI Agents & Apps</button>
+    <button class="filter-tab" data-filter="rag">RAG & Evals</button>
+    <button class="filter-tab" data-filter="analytics">Analytics & ML</button>
+    <button class="filter-tab" data-filter="automation">Automation</button>
+  </div>
+
+  <div class="projects-grid" id="projects-grid">
+
+    <!-- ── AI Agents & Apps ── -->
+    <div class="project-card reveal" data-category="agents">
+      <div class="project-icon">🏗️</div>
+      <div class="project-name">ArchonAI</div>
+      <div class="project-desc">Production AI SaaS for CTOs and engineering leaders. Generates defensible AI architecture decisions, cost optimizations, roadmaps, and cloud strategy recommendations via multi-turn advisory chat.</div>
+      <div class="project-tags"><span class="tag">React</span><span class="tag">FastAPI</span><span class="tag">Claude</span><span class="tag">MongoDB</span><span class="tag">Docker</span></div>
+      <div class="project-links">
+        <a href="https://github.com/MaithyAnalyzent/ArchonAI" target="_blank" rel="noopener noreferrer" class="project-link primary">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+          GitHub
+        </a>
+      </div>
+    </div>
+
+    <div class="project-card reveal reveal-delay-1" data-category="agents">
+      <div class="project-icon">🧠</div>
+      <div class="project-name">VentBuddy AI (Mindful)</div>
+      <div class="project-desc">AI mental wellness companion with mood tracking, digital journaling, habit monitoring, breathing exercises, and full voice interaction (Whisper STT + TTS). Telegram integration included.</div>
+      <div class="project-tags"><span class="tag">FastAPI</span><span class="tag">React</span><span class="tag">OpenAI</span><span class="tag">MongoDB</span><span class="tag">JWT</span></div>
+      <div class="project-links">
+        <a href="https://github.com/MaithyAnalyzent/VentBuddyAI_Mindful" target="_blank" rel="noopener noreferrer" class="project-link primary">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+          GitHub
+        </a>
+        <a href="https://huggingface.co/spaces/MaithiliMaithy/Agent%20One" target="_blank" rel="noopener noreferrer" class="project-link">🤗 Demo</a>
+      </div>
+    </div>
+
+    <div class="project-card reveal reveal-delay-2" data-category="agents">
+      <div class="project-icon">💬</div>
+      <div class="project-name">VentBuddy UI</div>
+      <div class="project-desc">Dedicated frontend for the VentBuddy mental wellness platform. Full-stack web app with React frontend, Python backend, and memory module for personalized AI interactions.</div>
+      <div class="project-tags"><span class="tag">JavaScript</span><span class="tag">React</span><span class="tag">Python</span><span class="tag">CSS</span></div>
+      <div class="project-links">
+        <a href="https://github.com/MaithyAnalyzent/Ventbuddy_UI" target="_blank" rel="noopener noreferrer" class="project-link primary">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+          GitHub
+        </a>
+      </div>
+    </div>
+
+    <div class="project-card reveal" data-category="agents">
+      <div class="project-icon">🤖</div>
+      <div class="project-name">VentBuddy AI (Original)</div>
+      <div class="project-desc">AI bot with NLP for automated content scraping, processing, and multi-platform distribution. Multi-agent system with daily caching, logging, and performance metric tracking.</div>
+      <div class="project-tags"><span class="tag">Python</span><span class="tag">NLP</span><span class="tag">AI Agents</span><span class="tag">Web Scraping</span></div>
+      <div class="project-links">
+        <a href="https://github.com/MaithyAnalyzent/VentBuddyAI" target="_blank" rel="noopener noreferrer" class="project-link primary">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+          GitHub
+        </a>
+      </div>
+    </div>
+
+    <div class="project-card reveal reveal-delay-1" data-category="agents">
+      <div class="project-icon">🌐</div>
+      <div class="project-name">Project Sarvam AI</div>
+      <div class="project-desc">Next.js AI web application exploring multilingual and conversational AI capabilities for Indian language contexts, built with Tailwind CSS and TypeScript.</div>
+      <div class="project-tags"><span class="tag">Next.js</span><span class="tag">TypeScript</span><span class="tag">Tailwind</span><span class="tag">AI API</span></div>
+      <div class="project-links">
+        <a href="https://github.com/MaithyAnalyzent/ProjectSarvamAI" target="_blank" rel="noopener noreferrer" class="project-link primary">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+          GitHub
+        </a>
+        <a href="https://huggingface.co/spaces/MaithiliMaithy/ProjectSarvamAI" target="_blank" rel="noopener noreferrer" class="project-link">🤗 Space</a>
+      </div>
+    </div>
+
+    <!-- ── RAG & Evals ── -->
+    <div class="project-card reveal reveal-delay-2" data-category="rag">
+      <div class="project-icon">🔗</div>
+      <div class="project-name">RAG FORGE</div>
+      <div class="project-desc">Production-ready, provider-agnostic Hybrid RAG framework. Combines dense embeddings (FAISS) and BM25 keyword search with Reciprocal Rank Fusion and cross-encoder re-ranking for maximum accuracy.</div>
+      <div class="project-tags"><span class="tag">Python</span><span class="tag">FAISS</span><span class="tag">SentenceTransformers</span><span class="tag">BM25</span><span class="tag">Ollama</span></div>
+      <div class="project-links">
+        <a href="https://github.com/MaithyAnalyzent/RAG_FORGE" target="_blank" rel="noopener noreferrer" class="project-link primary">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+          GitHub
+        </a>
+      </div>
+    </div>
+
+    <div class="project-card reveal" data-category="rag">
+      <div class="project-icon">📋</div>
+      <div class="project-name">RAG Evals</div>
+      <div class="project-desc">Generic plug-and-play evaluation system for LLMs, chatbots, and RAG pipelines. Measures faithfulness, context precision/recall, ROUGE, BLEU, and semantic similarity. Exports Excel, JSON, and HTML dashboards.</div>
+      <div class="project-tags"><span class="tag">Python</span><span class="tag">OpenAI</span><span class="tag">Anthropic</span><span class="tag">Gemini</span><span class="tag">Pandas</span></div>
+      <div class="project-links">
+        <a href="https://github.com/MaithyAnalyzent/RAG_Evals" target="_blank" rel="noopener noreferrer" class="project-link primary">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+          GitHub
+        </a>
+      </div>
+    </div>
+
+    <div class="project-card reveal reveal-delay-1" data-category="rag">
+      <div class="project-icon">⚖️</div>
+      <div class="project-name">Evals LLM — LLM Judge</div>
+      <div class="project-desc">Plug-and-play LLM evaluation framework using AI as judge. Scores outputs on correctness, relevance, and clarity. Supports batch processing, CLI runner, and custom provider adapters.</div>
+      <div class="project-tags"><span class="tag">Python</span><span class="tag">OpenAI</span><span class="tag">Anthropic</span><span class="tag">pytest</span><span class="tag">JSONL</span></div>
+      <div class="project-links">
+        <a href="https://github.com/MaithyAnalyzent/Evals_LLM" target="_blank" rel="noopener noreferrer" class="project-link primary">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+          GitHub
+        </a>
+      </div>
+    </div>
+
+    <div class="project-card reveal reveal-delay-2" data-category="rag">
+      <div class="project-icon">📄</div>
+      <div class="project-name">SmartDoc Pro</div>
+      <div class="project-desc">Production-ready pipeline-based document intelligence API. Auto-classifies documents, extracts structured data, and validates against business rules — fully industry-agnostic with YAML configuration.</div>
+      <div class="project-tags"><span class="tag">FastAPI</span><span class="tag">Python</span><span class="tag">PostgreSQL</span><span class="tag">S3</span><span class="tag">Docker</span></div>
+      <div class="project-links">
+        <a href="https://github.com/MaithyAnalyzent/SmartDocPro" target="_blank" rel="noopener noreferrer" class="project-link primary">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+          GitHub
+        </a>
+      </div>
+    </div>
+
+    <!-- ── Analytics & ML ── -->
+    <div class="project-card reveal" data-category="analytics">
+      <div class="project-icon">💰</div>
+      <div class="project-name">CostPilot AI</div>
+      <div class="project-desc">AI-driven financial ops dashboard for optimizing LLM API spending. Cost projection by department, multi-model comparison, rollout simulation, and interactive ROI visualization.</div>
+      <div class="project-tags"><span class="tag">React</span><span class="tag">TypeScript</span><span class="tag">Vite</span><span class="tag">Firebase</span><span class="tag">Recharts</span></div>
+      <div class="project-links">
+        <a href="https://github.com/MaithyAnalyzent/CostPilot-AI" target="_blank" rel="noopener noreferrer" class="project-link primary">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+          GitHub
+        </a>
+      </div>
+    </div>
+
+    <div class="project-card reveal reveal-delay-1" data-category="analytics">
+      <div class="project-icon">📊</div>
+      <div class="project-name">Quizlytics AI</div>
+      <div class="project-desc">Intelligent analytics platform transforming quiz data into actionable learning insights. Classifies strong/weak topics, tracks performance trends, and generates personalized study recommendations.</div>
+      <div class="project-tags"><span class="tag">Streamlit</span><span class="tag">Python</span><span class="tag">Pandas</span><span class="tag">Plotly</span><span class="tag">NumPy</span></div>
+      <div class="project-links">
+        <a href="https://github.com/MaithyAnalyzent/Quizlytics-AI" target="_blank" rel="noopener noreferrer" class="project-link primary">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+          GitHub
+        </a>
+      </div>
+    </div>
+
+    <div class="project-card reveal reveal-delay-2" data-category="analytics">
+      <div class="project-icon">👁️</div>
+      <div class="project-name">Glaucoma Detection</div>
+      <div class="project-desc">Retrained U-Net neural network to detect glaucoma from OCTA retinal images with ~98.47% accuracy. Two-phase training with VGG16 encoder, k-fold cross-validation, and a Streamlit web interface for real-time predictions.</div>
+      <div class="project-tags"><span class="tag">TensorFlow</span><span class="tag">U-Net</span><span class="tag">VGG16</span><span class="tag">Streamlit</span><span class="tag">OpenCV</span></div>
+      <div class="project-links">
+        <a href="https://github.com/MaithyAnalyzent/Glaucoma_Detection" target="_blank" rel="noopener noreferrer" class="project-link primary">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+          GitHub
+        </a>
+      </div>
+    </div>
+
+    <!-- ── Automation ── -->
+    <div class="project-card reveal" data-category="automation">
+      <div class="project-icon">⚙️</div>
+      <div class="project-name">N8N Workflow Generator</div>
+      <div class="project-desc">N8N-based workflow automation for LinkedIn SDR outreach. Includes automated prospecting workflows, reply listener for monitoring incoming messages, and quick-start deployment guides.</div>
+      <div class="project-tags"><span class="tag">N8N</span><span class="tag">LinkedIn API</span><span class="tag">JSON</span><span class="tag">Automation</span></div>
+      <div class="project-links">
+        <a href="https://github.com/MaithyAnalyzent/N8N_Test" target="_blank" rel="noopener noreferrer" class="project-link primary">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+          GitHub
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+  <div style="text-align:center;margin-top:36px;">
+    <a href="https://github.com/MaithyAnalyzent" target="_blank" rel="noopener noreferrer" class="btn-secondary reveal" style="display:inline-flex;">
+      View All on GitHub →
+    </a>
+  </div>
+</section>
+
+<!-- HuggingFace -->
+<section id="huggingface">
+  <div class="section-header reveal">
+    <p class="section-tag">HuggingFace</p>
+    <h2 class="section-title">AI Spaces</h2>
+    <p class="section-sub">Experiments &amp; prototypes built on HuggingFace Spaces. Explore more on my profile.</p>
+  </div>
+
+  <div class="hf-grid" id="hf-grid">
+
+    <a href="https://huggingface.co/spaces/MaithiliMaithy/Agent%20One" target="_blank" rel="noopener noreferrer" class="hf-card reveal" data-hf-category="agents">
+      <div class="hf-top"><div class="hf-emoji">🐢</div><div class="hf-name">Agent One</div></div>
+      <div class="hf-desc">Autonomous AI agent exploring multi-step reasoning, planning, and long-horizon task completion.</div>
+      <div class="hf-footer">
+        <span class="hf-badge">Agents</span>
+        <span class="hf-open">Open ↗</span>
+      </div>
+    </a>
+
+    <a href="https://huggingface.co/spaces/MaithiliMaithy/EmailGenie2" target="_blank" rel="noopener noreferrer" class="hf-card reveal reveal-delay-1" data-hf-category="email">
+      <div class="hf-top"><div class="hf-emoji">🌖</div><div class="hf-name">Email Genie 2</div></div>
+      <div class="hf-desc">Improved iteration of Email Genie with enhanced tone control and output customisation options.</div>
+      <div class="hf-footer">
+        <span class="hf-badge">Email</span>
+        <span class="hf-open">Open ↗</span>
+      </div>
+    </a>
+
+    <a href="https://huggingface.co/spaces/MaithiliMaithy/Chatbotapi" target="_blank" rel="noopener noreferrer" class="hf-card reveal reveal-delay-2" data-hf-category="chat">
+      <div class="hf-top"><div class="hf-emoji">💻</div><div class="hf-name">Chatbot API</div></div>
+      <div class="hf-desc">Chatbot space with API integration — connects to external LLM endpoints for conversational responses.</div>
+      <div class="hf-footer">
+        <span class="hf-badge">Chat</span>
+        <span class="hf-open">Open ↗</span>
+      </div>
+    </a>
+
+    <a href="https://huggingface.co/spaces/MaithiliMaithy/PostGenerator1" target="_blank" rel="noopener noreferrer" class="hf-card reveal" data-hf-category="content">
+      <div class="hf-top"><div class="hf-emoji">🏆</div><div class="hf-name">Post Generator</div></div>
+      <div class="hf-desc">AI-powered social media post generator with platform-specific tone and hashtag optimisation.</div>
+      <div class="hf-footer">
+        <span class="hf-badge">Content</span>
+        <span class="hf-open">Open ↗</span>
+      </div>
+    </a>
+
+  </div>
+
+  <div style="text-align:center;margin-top:32px;">
+    <a href="https://huggingface.co/MaithiliMaithy" target="_blank" rel="noopener noreferrer" class="btn-secondary reveal" style="display:inline-flex;">
+      View all spaces on HuggingFace →
+    </a>
+  </div>
+</section>
+
+
+<section id="creative">
+  <div style="text-align:center; margin-bottom:56px;">
+    <p class="section-tag reveal">Generative AI Art</p>
+    <h2 class="section-title reveal">AI Creative Projects</h2>
+    <p class="section-sub reveal reveal-delay-1">
+      Exploring the creative frontier of AI — from LoRA fine-tuning to product photography and AI-generated videos.
+    </p>
+  </div>
+
+  <div class="creative-grid">
+
+    <!-- Stable Diffusion Product Photography -->
+    <div class="creative-card reveal">
+      <div class="creative-photo-grid">
+        <img src="images/creative/sd-product-1.png" alt="Energy drink mockup SD" loading="lazy" />
+        <img src="images/creative/sd-product-2.png" alt="Perfume mockup SD" loading="lazy" />
+        <img src="images/creative/sd-inpaint-1.png" alt="Inpainting result 1" loading="lazy" />
+        <img src="images/creative/sd-inpaint-2.png" alt="Inpainting result 2" loading="lazy" />
+      </div>
+      <div class="creative-card-body">
+        <div class="creative-card-tag">Stable Diffusion · ControlNet</div>
+        <div class="creative-card-title">AI Product Photography Engine</div>
+        <p class="creative-card-desc">Built a product photoshoot engine on Stable Diffusion using Depth, Canny &amp; reference ControlNet pipelines. Outputs include energy drink &amp; perfume mockups plus inpainting composites.</p>
+      </div>
+    </div>
+
+    <!-- Nike LoRA -->
+    <div class="creative-card reveal">
+      <div class="creative-photo-grid">
+        <img src="images/creative/nike-1.png" alt="Nike LoRA result 1" loading="lazy" />
+        <img src="images/creative/nike-2.png" alt="Nike LoRA result 2" loading="lazy" />
+        <img src="images/creative/nike-3.png" alt="Nike LoRA result 3" loading="lazy" />
+        <img src="images/creative/nike-4.png" alt="Nike LoRA result 4" loading="lazy" />
+      </div>
+      <div class="creative-card-body">
+        <div class="creative-card-tag">ComfyUI · LoRA Fine-Tuning</div>
+        <div class="creative-card-title">Nike Shoes LoRA</div>
+        <p class="creative-card-desc">Trained a custom LoRA on Nike shoe images using ComfyUI. The model learns to recognize the Nike logo and generate cool variants with diverse backgrounds and lighting setups.</p>
+      </div>
+    </div>
+
+    <!-- Dhoni LoRA -->
+    <div class="creative-card reveal">
+      <div class="creative-photo-grid">
+        <img src="images/creative/dhoni-1.png" alt="Dhoni LoRA result 1" loading="lazy" />
+        <img src="images/creative/dhoni-2.png" alt="Dhoni LoRA result 2" loading="lazy" />
+        <img src="images/creative/dhoni-3.png" alt="Dhoni LoRA result 3" loading="lazy" />
+        <img src="images/creative/dhoni-4.png" alt="Dhoni LoRA result 4" loading="lazy" />
+      </div>
+      <div class="creative-card-body">
+        <div class="creative-card-tag">ComfyUI · LoRA Fine-Tuning</div>
+        <div class="creative-card-title">MS Dhoni Face LoRA</div>
+        <p class="creative-card-desc">Trained a LoRA on MS Dhoni images via ComfyUI — the model recognizes Dhoni's face and generates stylized portraits with different backgrounds, outfits, and artistic styles.</p>
+      </div>
+    </div>
+
+    <!-- Dreambooth Headphones -->
+    <div class="creative-card reveal">
+      <div class="creative-photo-grid">
+        <img src="images/creative/headphones-1.png" alt="Dreambooth headphones 1" loading="lazy" />
+        <img src="images/creative/headphones-2.png" alt="Dreambooth headphones 2" loading="lazy" />
+        <img src="images/creative/headphones-3.png" alt="Dreambooth headphones 3" loading="lazy" />
+        <img src="images/creative/headphones-4.png" alt="Dreambooth headphones 4" loading="lazy" />
+      </div>
+      <div class="creative-card-body">
+        <div class="creative-card-tag">Dreambooth · Automatic1111</div>
+        <div class="creative-card-title">Headphones Product Visuals</div>
+        <p class="creative-card-desc">Fine-tuned a Dreambooth model on headphone images using Automatic1111. Generates custom, high-quality product visuals ideal for marketing &amp; e-commerce listings.</p>
+      </div>
+    </div>
+
+    <!-- AI Generated Videos -->
+    <div class="creative-card reveal">
+      <a href="https://www.instagram.com/reel/C_n4AeRSWAh/?igsh=MWpwbTVwZ2tubTJqcg==" target="_blank" rel="noopener noreferrer" style="display:block;">
+        <div class="creative-video-thumb">
+          <div class="play-btn">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          </div>
+          <div class="creative-video-label">🎬 AI Generated Video — Watch on Instagram</div>
+        </div>
+      </a>
+      <div class="creative-card-body">
+        <div class="creative-card-tag">Generative Video · AI Tools</div>
+        <div class="creative-card-title">AI Generated Videos</div>
+        <p class="creative-card-desc">Experimenting with AI video generation tools to create compelling short-form content — from concept to final clip, entirely AI-generated.</p>
+        <a href="https://www.instagram.com/reel/C_n4AeRSWAh/?igsh=MWpwbTVwZ2tubTJqcg==" target="_blank" rel="noopener noreferrer" class="creative-vid-link">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          Watch Reel on Instagram
+        </a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Services -->
+<section id="services" style="background:var(--bg2);">
+  <div class="section-header reveal">
+    <p class="section-tag">What I Do</p>
+    <h2 class="section-title">How I Can Help</h2>
+    <p class="section-sub">From prototype to production — I build AI-powered products that solve real problems.</p>
+  </div>
+
+  <div class="services-grid">
+    <div class="service-card reveal">
+      <div class="service-icon">🤖</div>
+      <div class="service-name">AI Agent Development</div>
+      <div class="service-desc">Autonomous agents with tool use and multi-step reasoning using LangChain, CrewAI, and OpenAI/Anthropic APIs.</div>
+    </div>
+    <div class="service-card reveal reveal-delay-1">
+      <div class="service-icon">🧩</div>
+      <div class="service-name">LLM Application Development</div>
+      <div class="service-desc">End-to-end LLM apps — prompt engineering, RAG pipelines to production deployment with FastAPI and Next.js.</div>
+    </div>
+    <div class="service-card reveal reveal-delay-2">
+      <div class="service-icon">⚖️</div>
+      <div class="service-name">LLM Evaluation & Evals</div>
+      <div class="service-desc">Evaluation frameworks to measure LLM output quality, correctness, and reliability using AI-as-judge pipelines.</div>
+    </div>
+    <div class="service-card reveal reveal-delay-3">
+      <div class="service-icon">🔗</div>
+      <div class="service-name">RAG & Knowledge Systems</div>
+      <div class="service-desc">Retrieval-augmented generation connecting LLMs to documents, databases, and knowledge bases for grounded responses.</div>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-icon">📊</div>
+      <div class="service-name">AI Analytics Dashboards</div>
+      <div class="service-desc">Interactive dashboards turning raw data into AI-powered insights — built with Streamlit, React, and Plotly.</div>
+    </div>
+    <div class="service-card reveal reveal-delay-1">
+      <div class="service-icon">🌐</div>
+      <div class="service-name">Full-Stack AI Products</div>
+      <div class="service-desc">Complete web applications with AI at the core — React/Next.js frontend, FastAPI backend, AI features throughout.</div>
+    </div>
+    <div class="service-card reveal reveal-delay-2">
+      <div class="service-icon">🎨</div>
+      <div class="service-name">Generative AI & Diffusion</div>
+      <div class="service-desc">Image generation systems using Stable Diffusion, LoRA fine-tuning, and ComfyUI for creative AI applications.</div>
+    </div>
+    <div class="service-card reveal reveal-delay-3">
+      <div class="service-icon">🤗</div>
+      <div class="service-name">HuggingFace Deployment</div>
+      <div class="service-desc">Deploying AI models and Gradio/Streamlit apps to HuggingFace Spaces for fast, accessible AI demos.</div>
+    </div>
+  </div>
+</section>
+
+<!-- Blog modal -->
+<div class="blog-modal-overlay" id="blog-modal-overlay" role="dialog" aria-modal="true">
+  <div class="blog-modal">
+    <div class="blog-modal-header">
+      <div>
+        <div class="blog-modal-meta" id="modal-meta"></div>
+        <h2 class="blog-modal-title" id="modal-title"></h2>
+      </div>
+      <button class="blog-modal-close" id="modal-close" aria-label="Close article">✕</button>
+    </div>
+    <div class="blog-modal-divider"></div>
+    <div class="blog-modal-body" id="modal-body"></div>
+  </div>
+</div>
+
+<!-- Blogs -->
+<section id="blogs">
+  <div class="section-header reveal">
+    <p class="section-tag">Writing</p>
+    <h2 class="section-title">From My Blog</h2>
+    <p class="section-sub">Reflections on AI, buildathons, and the journey of building in public.</p>
+  </div>
+
+  <div class="blogs-grid">
+    <!-- Blog 1 -->
+    <div class="blog-card reveal">
+      <img src="images/blog/blog1-1.jpg?v=1784023105" alt="AI Buildathon event" class="blog-cover" style="object-position:center 50%;" loading="lazy" />
+      <div class="blog-body">
+        <div class="blog-meta">
+          <span class="blog-tag">AI Buildathon</span>
+          <span class="blog-date">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            January 2025
+          </span>
+        </div>
+        <h3 class="blog-title">From Ideation to Innovation: My 3-Week Journey Through India's Largest AI Buildathon</h3>
+        <p class="blog-excerpt">Reaching the finals of India's largest AI Buildathon wasn't just a milestone — it was a transformative three-week journey that reshaped my understanding of innovation, teamwork, and AI's boundless potential.</p>
+        <button class="blog-read-more" onclick="openBlog('blog1')">
+          Read Full Article
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Blog 2 -->
+    <div class="blog-card reveal reveal-delay-1">
+      <img src="images/blog/blog2-3.jpg?v=1784023351" alt="100x Engineers networking event" class="blog-cover" style="object-position:center 25%;" loading="lazy" />
+      <div class="blog-body">
+        <div class="blog-meta">
+          <span class="blog-tag">Networking</span>
+          <span class="blog-date">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            January 2025
+          </span>
+        </div>
+        <h3 class="blog-title">My First Tech Networking Experience: Beyond the Buildathon</h3>
+        <p class="blog-excerpt">Stepping into my first tech networking event organised by 100xEngineers after the AI Buildathon finals — every conversation reshaped my perspective on tech innovation and entrepreneurship.</p>
+        <button class="blog-read-more" onclick="openBlog('blog2')">
+          Read Full Article
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div style="text-align:center;margin-top:32px;">
+    <a href="https://www.linkedin.com/in/maithili-saravanan05/recent-activity/articles/" target="_blank" rel="noopener noreferrer" class="btn-secondary reveal" style="display:inline-flex;">
+      View All Articles on LinkedIn →
+    </a>
+  </div>
+</section>
+
+<!-- AI Creative -->
+
+
+<!-- Contact -->
+<section id="contact" style="background:var(--bg2);">
+  <div class="contact-grid">
+    <div>
+      <p class="section-tag reveal">Get In Touch</p>
+      <h2 class="section-title reveal">Let's Build Something Intelligent</h2>
+      <p class="section-sub reveal reveal-delay-1" style="margin-bottom:32px;">
+        Have an AI project in mind? Want to collaborate? Or just want to talk AI?
+        I'm always open to interesting conversations.
+      </p>
+
+      <a href="mailto:maithilisaravanan05@gmail.com" class="contact-link-item reveal reveal-delay-2" style="display:flex;">
+        <span class="icon">✉</span>
+        maithilisaravanan05@gmail.com
+      </a>
+      <a href="tel:+918431382181" class="contact-link-item reveal reveal-delay-2" style="display:flex;">
+        <span class="icon">📞</span>
+        +91 84313 82181
+      </a>
+      <a href="https://www.linkedin.com/in/maithili-saravanan05" target="_blank" rel="noopener noreferrer" class="contact-link-item reveal reveal-delay-3" style="display:flex;">
+        <span class="icon">in</span>
+        linkedin.com/in/maithili-saravanan05
+      </a>
+      <a href="https://github.com/MaithyAnalyzent" target="_blank" rel="noopener noreferrer" class="contact-link-item reveal reveal-delay-3" style="display:flex;">
+        <span class="icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+        </span>
+        github.com/MaithyAnalyzent
+      </a>
+      <a href="https://huggingface.co/MaithiliMaithy" target="_blank" rel="noopener noreferrer" class="contact-link-item reveal" style="display:flex;">
+        <span class="icon">🤗</span>
+        huggingface.co/MaithiliMaithy
+      </a>
+      <a href="https://drive.google.com/uc?export=download&id=16nWmQqYzqOZw-xq22NUkL0HuF-osgWq3" target="_blank" rel="noopener noreferrer" class="contact-link-item reveal" style="display:flex;">
+        <span class="icon">↓</span>
+        Download Resume (PDF)
+      </a>
+    </div>
+
+    <div>
+      <form class="contact-form" id="contact-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Name</label>
+            <input type="text" placeholder="Your name" required autocomplete="name" />
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" placeholder="your@email.com" required autocomplete="email" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Topic</label>
+          <select>
+            <option value="">Select a topic...</option>
+            <option>AI Agent / LLM Application</option>
+            <option>Full-Stack AI Product</option>
+            <option>RAG / Knowledge System</option>
+            <option>Collaboration / Open Source</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Message</label>
+          <textarea rows="5" placeholder="Tell me about your project or idea..."></textarea>
+        </div>
+        <button type="submit" class="form-submit">Send Message →</button>
+        <div class="success-msg" id="success-msg">✓ Message sent! I'll get back to you soon.</div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand-name">Maithili S.</div>
+      <div class="footer-brand-desc">Generative AI Developer & Full Stack Engineer building intelligent systems and autonomous agents in Bangalore, India.</div>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Explore</div>
+      <a href="#about">About & Experience</a>
+      <a href="#projects">Projects</a>
+      <a href="#huggingface">HuggingFace</a>
+      <a href="#creative">Creative</a>
+      <a href="#services">Services</a>
+      <a href="#blogs">Blogs</a>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Connect</div>
+      <a href="https://github.com/MaithyAnalyzent" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a href="https://www.linkedin.com/in/maithili-saravanan05" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href="https://huggingface.co/MaithiliMaithy" target="_blank" rel="noopener noreferrer">HuggingFace</a>
+      <a href="mailto:maithilisaravanan05@gmail.com">Email</a>
+    </div>
+
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2025 Maithili S. · Bangalore, India · Built with ♥ and a lot of AI.</div>
+    <div class="social-links">
+      <a href="https://github.com/MaithyAnalyzent" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="GitHub">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+      </a>
+      <a href="https://www.linkedin.com/in/maithili-saravanan05" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="LinkedIn">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+      </a>
+      <a href="https://huggingface.co/MaithiliMaithy" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="HuggingFace" style="font-size:1rem;">🤗</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  /* Cursor */
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursor-ring');
+  const glow = document.getElementById('mouse-glow');
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove',e=>{
+    mx=e.clientX; my=e.clientY;
+    cursor.style.left=mx+'px'; cursor.style.top=my+'px';
+    glow.style.left=mx+'px'; glow.style.top=my+'px';
+  });
+  (function animRing(){
+    rx+=(mx-rx)*.12; ry+=(my-ry)*.12;
+    ring.style.left=rx+'px'; ring.style.top=ry+'px';
+    requestAnimationFrame(animRing);
+  })();
+
+  /* Progress bar */
+  window.addEventListener('scroll',()=>{
+    const pct=window.scrollY/(document.body.scrollHeight-window.innerHeight)*100;
+    document.getElementById('progress-bar').style.width=pct+'%';
+    document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>40);
+  });
+
+  /* Mobile menu */
+  document.getElementById('hamburger').addEventListener('click',()=>document.getElementById('mobile-menu').classList.add('open'));
+  document.getElementById('menu-close').addEventListener('click',closeMobileMenu);
+  function closeMobileMenu(){document.getElementById('mobile-menu').classList.remove('open');}
+
+  /* Reveal on scroll */
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});
+  },{threshold:.1});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+  /* Hero reveals on load */
+  window.addEventListener('load',()=>{
+    document.querySelectorAll('#hero .reveal').forEach((el,i)=>{
+      setTimeout(()=>el.classList.add('visible'),80+i*140);
+    });
+  });
+
+  /* Project filter tabs */
+  document.querySelectorAll('[data-filter]').forEach(tab => {
+    tab.addEventListener('click', () => {
+      // deactivate siblings only (tabs in same group)
+      tab.closest('.filter-tabs').querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      const filter = tab.dataset.filter;
+      document.querySelectorAll('.project-card').forEach(card => {
+        card.classList.toggle('hidden', filter !== 'all' && card.dataset.category !== filter);
+      });
+    });
+  });
+
+  /* HuggingFace filter tabs */
+  document.querySelectorAll('[data-hf-filter]').forEach(tab => {
+    tab.addEventListener('click', () => {
+      tab.closest('.filter-tabs').querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      const filter = tab.dataset.hfFilter;
+      document.querySelectorAll('[data-hf-category]').forEach(card => {
+        card.classList.toggle('hidden', filter !== 'all' && card.dataset.hfCategory !== filter);
+      });
+    });
+  });
+
+  /* Blog modal */
+  const blogs = {
+    blog1: {
+      meta: 'AI Buildathon · January 2025',
+      title: 'From Ideation to Innovation: My 3-Week Journey Through India\'s Largest AI Buildathon',
+      body: `
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;margin-bottom:24px;border-radius:12px;overflow:hidden;">
+          <img src="images/blog/blog1-1.jpg" alt="Buildathon event" style="width:100%;height:160px;object-fit:cover;border-radius:8px;" loading="lazy"/>
+          <img src="images/blog/blog1-2.jpg" alt="Buildathon team" style="width:100%;height:160px;object-fit:cover;border-radius:8px;" loading="lazy"/>
+          <img src="images/blog/blog1-3.jpg" alt="Buildathon finals" style="width:100%;height:160px;object-fit:cover;border-radius:8px;" loading="lazy"/>
+          <img src="images/blog/blog1-4.jpg" alt="AI Buildathon" style="width:100%;height:160px;object-fit:cover;border-radius:8px;" loading="lazy"/>
+          <img src="images/blog/blog1-5.jpg" alt="Buildathon pitch" style="width:100%;height:160px;object-fit:cover;border-radius:8px;" loading="lazy"/>
+        </div>
+        <p>Reaching the finals of India's largest AI Buildathon wasn't just a milestone — it was a transformative three-week journey that reshaped my understanding of innovation, teamwork, and AI's boundless potential.</p>
+        <p>The journey began on <strong>November 22nd</strong> when our team of four, connected through Discord, embraced an ambitious challenge by <strong>Sentient Foundation</strong>: Request for Agents (RFA) — building "Truth Terminal" inspired AI Agents for Twitter using Eliza. In just three intense days, until November 25th, we developed our initial MVP featuring three distinct AI personalities: <em>Cupid, LinkedOut Larry, and Penny Pincher.</em></p>
+        <p>The real adventure kicked off when we qualified for the <strong>semi-finals on November 28th</strong>. This opened a crucial two-week window where, under the invaluable mentorship of Siddhant Goswami and the 100xEngineers team, we transformed our creation, <strong>VentBuddyAI</strong>, into a sophisticated GenZ-focused therapeutic companion.</p>
+        <p>Despite grappling with challenges — from costly API limitations to deployment hurdles — our team's resilience never wavered.</p>
+        <p>Our innovation emerged as a <strong>contextually aware AI therapist</strong> that seamlessly works across Twitter, Discord, and Bluesky Social. VentBuddyAI doesn't just respond; it understands, adapts, and provides personalised support through intelligent communication. The potential impact? Creating an innovative preliminary layer for mental health professionals, enhancing the quality of subsequent consultations.</p>
+        <p><strong>December 14th</strong> marked a pivotal moment as we advanced to the finals among 40+ teams. The very next day, December 15th, we faced our ultimate challenge — pitching to VCs in the finals. While we may not have clinched the victory, the experience of presenting our innovation to industry leaders provided invaluable insights that will shape our future endeavours.</p>
+        <h3>Key Takeaways</h3>
+        <ul>
+          <li>True innovation flourishes under constraints</li>
+          <li>Diverse perspectives create stronger solutions</li>
+          <li>AI can revolutionise mental health support</li>
+          <li>Adaptability is crucial for product evolution</li>
+        </ul>
+        <p>To my incredible teammates — Udhaya Kumar A, Mayank Shekhar, and Sagnik Sahoo — your dedication and collaborative spirit made this intense three-week journey unforgettable. To the 100xEngineers team: your humility and unwavering support created an environment where innovation truly thrived.</p>
+        <p>This wasn't just my first all-India AI buildathon — it was a masterclass in turning challenges into opportunities, ideas into impact, and strangers into teammates. 🌟</p>
+      `
+    },
+    blog2: {
+      meta: 'Networking · January 2025',
+      title: 'My First Tech Networking Experience: Beyond the Buildathon',
+      body: `
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;margin-bottom:24px;">
+          <img src="images/blog/blog2-1.jpg" alt="100x Engineers event" style="width:100%;height:160px;object-fit:cover;border-radius:10px;" loading="lazy" />
+          <img src="images/blog/blog2-2.jpg" alt="100x Engineers stage" style="width:100%;height:160px;object-fit:cover;border-radius:10px;" loading="lazy" />
+          <img src="images/blog/blog2-3.jpg" alt="100x Engineers networking" style="width:100%;height:160px;object-fit:cover;border-radius:10px;" loading="lazy" />
+          <img src="images/blog/blog2-4.jpg" alt="100x Engineers group" style="width:100%;height:160px;object-fit:cover;border-radius:10px;" loading="lazy" />
+          <img src="images/blog/blog2-5.jpg" alt="100x Engineers finalist" style="width:100%;height:160px;object-fit:cover;border-radius:10px;" loading="lazy" />
+        </div>
+        <p>Just a few days back, on <strong>December 15th</strong>, I stepped into my first tech networking event organised by <strong>100xEngineers</strong> after their AI Buildathon final pitch. Little did I know this would open doors to some of the most inspiring conversations of my career.</p>
+        <p>The energy in the room was electric! From connecting with brilliant minds like <strong>Mohammed Faraaz Ahmed</strong> (Chief of Staff at Lyzr AI) and <strong>Harshavardhan Reddy</strong> (CEO of Aeos Labs) to engaging with diverse talents ranging from school and college students to industry veterans with 17+ years of experience — every conversation added a new perspective to my tech journey.</p>
+        <p>One of the highlights? An enlightening discussion with <strong>Pragya M</strong>, Public Policy Head at OpenAI, who shared fascinating insights about AI's trajectory. The highlight of the session was <strong>Varun Mayya's</strong> insights into technology and the industry — truly transformative, providing a fresh perspective on what can be achieved and challenging my thinking about tech innovation and entrepreneurship.</p>
+        <p>What struck me most was how the tech community, regardless of experience level, shares an infectious enthusiasm for innovation. Whether it was:</p>
+        <ul>
+          <li>Exchange of ideas with startup founders</li>
+          <li>Learning from seasoned professionals</li>
+          <li>Connecting with fellow tech enthusiasts</li>
+          <li>Building relationships that extend beyond LinkedIn</li>
+        </ul>
+        <h3>Key Learning</h3>
+        <p>The most valuable innovations often spark from unexpected conversations and diverse perspectives coming together.</p>
+        <p>To everyone I met that day — thank you for making my first networking experience unforgettable. Thanks to <strong>100xEngineers</strong> for creating this platform where paths cross and ideas flourish.</p>
+      `
+    }
+  };
+
+  function openBlog(id) {
+    const b = blogs[id];
+    document.getElementById('modal-meta').textContent = b.meta;
+    document.getElementById('modal-title').textContent = b.title;
+    document.getElementById('modal-body').innerHTML = b.body;
+    document.getElementById('blog-modal-overlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeBlog() {
+    document.getElementById('blog-modal-overlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.getElementById('modal-close').addEventListener('click', closeBlog);
+  document.getElementById('blog-modal-overlay').addEventListener('click', e => {
+    if (e.target === e.currentTarget) closeBlog();
+  });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeBlog(); });
+
+  /* Contact form */
+  document.getElementById('contact-form').addEventListener('submit',e=>{
+    e.preventDefault();
+    const btn=e.target.querySelector('.form-submit');
+    btn.textContent='Sending...'; btn.disabled=true;
+    setTimeout(()=>{
+      btn.style.display='none';
+      document.getElementById('success-msg').classList.add('show');
+    },900);
+  });
+</script>
+</body>
+</html>
